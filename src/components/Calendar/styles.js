@@ -1,33 +1,17 @@
-import { css } from "styled-components";
+import { css } from "@emotion/react";
 
 export const container = css`
   display: flex;
-  flex-direction: column;
-  margin: auto;
+  justify-content: center;
+  align-items: center;
   margin-top: 5rem;
-  width: 60%;
-  height: 90vh;
 `;
 
-export const header = css`
+export const containerCalendar = css`
   display: flex;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0.5rem;
-  padding: 2rem 5rem;
-  height: 8rem;
-  background-color: #f8c275;
-  color: #fff;
-  & > div > span:first-child {
-    font-size: 3rem;
-    font-weight: 800;
-  }
-  & > div > span:last-child {
-    font-size: 2.5rem;
-    margin-left: 1rem;
-    font-weight: 600;
-  }
+  flex-direction: column;
+  width: 60%;
+  height: 90vh;
 `;
 
 export const weeks = css`
@@ -56,13 +40,3 @@ export const dates = css`
   border-radius: 0.5rem;
   font-size: 2rem;
 `;
-
-export const date = (today) => {
-  console.log(today);
-  return css`
-    border-radius: 0.5rem;
-    padding: 1.5rem 0 0 1.5rem;
-    ${today ? "background-color: #d66f5c;" : "background-color: #f8c275;"}
-    border: 0.1rem solid #ffffff;
-  `;
-};

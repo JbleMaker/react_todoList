@@ -10,7 +10,10 @@ import {
 } from "date-fns";
 import * as s from "./styles";
 import { useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import ToDay from "../ToDay/ToDay";
+import ToDayTodo from "../ToDayTodo/ToDayTodo";
+import Header from "../Header/Header";
 
 function Calendar(props) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -19,6 +22,9 @@ function Calendar(props) {
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   const weeks = ["일", "월", "화", "수", "목", "금", "토"];
+
+  const [showing, setShowing] = useState(false);
+  const [clickDate, setClickDate] = useState("");
 
   const createMonth = useMemo(() => {
     const monthArray = [];
@@ -32,36 +38,26 @@ function Calendar(props) {
 
   return (
     <div css={s.container}>
-      <header css={s.header}>
-        <div>
-          <span>{format(currentDate, "M월")}</span>
-          <span>{format(currentDate, " d일")}</span>
-        </div>
-        <div>
-          <span>{format(currentDate, "yyyy년")}</span>
-        </div>
-      </header>
+      <motion.div css={s.containerCalendar}>
+        <Header currentDate={currentDate} />
 
-      <nav css={s.weeks}>
-        {weeks.map((week, index) => (
-          <span key={index}>{week}</span>
-        ))}
-      </nav>
-      <div css={s.dates}>
-        {createMonth.map((n, i) => {
-          const today =
-            format(new Date(), "yyyyMMdd") === format(n, "yyyyMMdd");
+        <nav css={s.weeks}>
+          {weeks.map((week, index) => (
+            <span key={index}>{week}</span>
+          ))}
+        </nav>
 
-          return (
-            <motion.span
-              key={i}
-              css={s.date(!!today)}
-              whileHover={{ scale: 1.2, border: 2 }}>
-              {format(n, "d")}
-            </motion.span>
-          );
-        })}
-      </div>
+        <div css={s.dates}>
+          {createMonth.map((day) => (
+            <ToDay
+              key={format(day, "yyyyMMdd")}
+              day={day}
+              setShowing={setShowing}
+            />
+          ))}
+        </div>
+      </motion.div>
+      <AnimatePresence>{showing ? <ToDayTodo /> : null}</AnimatePresence>
     </div>
   );
 }
